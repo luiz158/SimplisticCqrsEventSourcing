@@ -1,0 +1,41 @@
+<h2>Introduction</h2>
+<p>CQRS stands for Command Query Responsibility segregation, which means that you can use a different model to update
+    information&nbsp;and a different model to read information. Typically by different model we mean actual object model
+    and propably on different machine.</p><p>I this example I am using&nbsp;<br>* Kafka as event store (for event
+    sourcing)<br>* MongoDB as Write store<br>* Could use&nbsp;Elasticsearch as&nbsp;Read store<br>* Spring Cloud Stream
+    to abstract the event store and the publish/subscribe mechanism</p><p>This is actually a precursor project to
+    applying Spring DataFlow which will handle instance count, partitioning between consumer/producers and ad-hoc
+    creation of data micro-services using familiar Java API<br>and known semantics from Spring Integration like Sink,
+    Source, Transformer<br>&nbsp;&nbsp;</p>
+<h2>Producer Side</h2>
+<p>
+    We enable an output message channel on the app using
+    <script src="https://gist.github.com/ssouris/ef1309c679890f15b5363b7acedd5233.js"></script>
+
+    This is a small app backed by MongoDB. Spring Data provides special hooks like afterSave, afterDelete that are overridden in the application to apply event sourcing.
+</p>
+<p>
+    <script src="https://gist.github.com/ssouris/48f7d06477805af4f12bd1c804080e6f.js"></script>
+
+</p>
+<h2>Consumer Side</h2>
+<p>Consumer handles the event and from the producer and just logs it, but could eventually save it
+    to elasticsearch for full text querying</p>
+<script src="https://gist.github.com/ssouris/8a3119ba6def16ab44f9b7cb063ad680.js"></script>
+
+<p>You can find the code
+    <a href="https://github.com/ssouris/SimplisticCqrsEventSourcing"> >> here << </a>
+    .
+</p>
+
+and set-up the small infrastructure through docker compose
+
+<script src="https://gist.github.com/ssouris/5f06cef932d82a7f8660655406bfb994.js"></script>
+
+
+
+<p>Useful links:</p>
+<ul>
+    <li>http://martinfowler.com/bliki/CQRS.html</li>
+    <li>http://martinfowler.com/eaaDev/EventSourcing.html</li>
+</ul>
